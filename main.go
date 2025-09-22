@@ -3,6 +3,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"strconv"
@@ -29,6 +30,19 @@ var contacts = make(map[int]Contact)
 var nextID = 1
 
 func main() {
+	// Définition des flags
+	ajouter := flag.Bool("ajouter", false, "Ajouter un contact via ligne de commande")
+	nom := flag.String("nom", "", "Nom du contact")
+	email := flag.String("mail", "", "Email du contact")
+	flag.Parse()
+
+	// Si le flag --ajouter est utilisé
+	if *ajouter {
+		ajouterContactViaFlags(*nom, *email)
+		return
+	}
+
+	// Mode CLI normal
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Println("\nMini-CRM")
@@ -136,4 +150,22 @@ func mettreAJourContact(reader *bufio.Reader) {
 	
 	contacts[id] = contact
 	fmt.Printf("Contact mis à jour : %+v\n", contact)
+}
+
+func ajouterContactViaFlags(nom, email string) {
+	// Validation des paramètres
+	if nom == "" || email == "" {
+		fmt.Println("Erreur : --nom et --mail sont obligatoires")
+		fmt.Println("Exemple : go run main.go --ajouter --nom=Axelle --mail=axelle@lanca.fr")
+		return
+	}
+
+	// Création du contact
+	contact := Contact{ID: nextID, Nom: nom, Email: email}
+	contacts[nextID] = contact
+	
+	// Affichage du résultat
+	fmt.Printf("Contact ajouté parfaitement !\n")
+	fmt.Printf("ID: %d, Nom: %s, Email: %s\n", contact.ID, contact.Nom, contact.Email)
+	nextID++
 }
