@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 )
-
+//test
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
