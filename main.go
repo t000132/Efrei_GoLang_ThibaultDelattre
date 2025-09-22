@@ -8,7 +8,18 @@ import (
 	"strconv"
 	"strings"
 )
-//test
+
+// Contact structure
+type Contact struct {
+	ID    int
+	Nom   string
+	Email string
+}
+
+// Map pour le stockjage des contacts
+var contacts = make(map[int]Contact)
+var nextID = 1
+
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
@@ -35,5 +46,47 @@ func main() {
 		default:
 			fmt.Println("Choix invalide.")
 		}
+	}
+}
+
+func ajouterContact(reader *bufio.Reader) {
+	fmt.Print("Nom : ")
+	nom, _ := reader.ReadString('\n')
+	nom = strings.TrimSpace(nom)
+	fmt.Print("Email : ")
+	email, _ := reader.ReadString('\n')
+	email = strings.TrimSpace(email)
+
+	contact := Contact{ID: nextID, Nom: nom, Email: email}
+	contacts[nextID] = contact
+	fmt.Printf("Contact ajouté : %+v\n", contact)
+	nextID++
+}
+
+func listerContacts() {
+	if len(contacts) == 0 {
+		fmt.Println("Aucun contact")
+		return
+	}
+	fmt.Println("Liste des contacts :")
+	for _, c := range contacts {
+		fmt.Printf("ID: %d, Nom: %s, Email: %s\n", c.ID, c.Nom, c.Email)
+	}
+}
+
+func supprimerContact(reader *bufio.Reader) {
+	fmt.Print("ID du contact à supprimer : ")
+	idStr, _ := reader.ReadString('\n')
+	idStr = strings.TrimSpace(idStr)
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		fmt.Println("ID invalide")
+		return
+	}
+	if _, ok := contacts[id]; ok {
+		delete(contacts, id)
+		fmt.Println("Contact supprimé")
+	} else {
+		fmt.Println("Contact non trouvé")
 	}
 }
