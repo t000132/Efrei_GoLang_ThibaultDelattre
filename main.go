@@ -9,6 +9,14 @@ import (
 	"strings"
 )
 
+// memo technique :
+// fmt = format / le package de base de Go en gros
+// bufio = package pour lire / écrire des flux de données via mémoire tampon
+// Stdin = standard input (clavier)
+// nil = null
+// strconv.Atoi = packagae qui convertit les types => ASCII to integer
+// _ = pour ignorer la valeur de retour par ex une erreur
+
 // Contact structure
 type Contact struct {
 	ID    int
@@ -27,7 +35,8 @@ func main() {
 		fmt.Println("1. Ajouter contact")
 		fmt.Println("2. Lister contacts")
 		fmt.Println("3. Supprimer contact")
-		fmt.Println("4. Quitter")
+		fmt.Println("4. Mettre à jour un contact")
+		fmt.Println("5. Quitter")
 		fmt.Print("Votre choix : ")
 
 		input, _ := reader.ReadString('\n')
@@ -41,6 +50,8 @@ func main() {
 		case "3":
 			supprimerContact(reader)
 		case "4":
+			mettreAJourContact(reader)
+		case "5":
 			fmt.Println("Au revoir !")
 			return
 		default:
@@ -89,4 +100,40 @@ func supprimerContact(reader *bufio.Reader) {
 	} else {
 		fmt.Println("Contact non trouvé")
 	}
+}
+
+func mettreAJourContact(reader *bufio.Reader) {
+	fmt.Print("ID du contact à mettre à jour : ")
+	idStr, _ := reader.ReadString('\n')
+	idStr = strings.TrimSpace(idStr)
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		fmt.Println("ID invalide")
+		return
+	}
+	
+	contact, ok := contacts[id]
+	if !ok {
+		fmt.Println("Contact non trouvé")
+		return
+	}
+	
+	fmt.Printf("Contact actuel - ID: %d, Nom: %s, Email: %s\n", contact.ID, contact.Nom, contact.Email)
+	
+	fmt.Print("Nouveau nom (veuillez appuyer sur Entrée pour garder l'actuel) : ")
+	nom, _ := reader.ReadString('\n')
+	nom = strings.TrimSpace(nom)
+	if nom != "" {
+		contact.Nom = nom
+	}
+	
+	fmt.Print("Nouvel email (veuillez appuyer sur Entrée pour garder l'actuel) : ")
+	email, _ := reader.ReadString('\n')
+	email = strings.TrimSpace(email)
+	if email != "" {
+		contact.Email = email
+	}
+	
+	contacts[id] = contact
+	fmt.Printf("Contact mis à jour : %+v\n", contact)
 }
