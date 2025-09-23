@@ -25,8 +25,54 @@ type Contact struct {
 	Email string
 }
 
-// Map pour le stockjage des contacts
-var contacts = make(map[int]Contact)
+// Constructeur pour créer un nouveau contact
+func NewContact(nom, email string) (*Contact, error) {
+	// Validation
+	if strings.TrimSpace(nom) == "" {
+		return nil, fmt.Errorf("le nom ne peut pas être vide")
+	}
+	if strings.TrimSpace(email) == "" {
+		return nil, fmt.Errorf("l'email ne peut pas être vide")
+	}
+	if !strings.Contains(email, "@") {
+		return nil, fmt.Errorf("l'email doit contenir @")
+	}
+
+	return &Contact{
+		ID:    nextID,
+		Nom:   strings.TrimSpace(nom),
+		Email: strings.TrimSpace(email),
+	}, nil
+}
+
+// Méthode pour afficher le contact
+func (c *Contact) String() string {
+	return fmt.Sprintf("ID: %d, Nom: %s, Email: %s", c.ID, c.Nom, c.Email)
+}
+
+// Méthode pour mettre à jour le nom
+func (c *Contact) UpdateNom(nouveauNom string) error {
+	if strings.TrimSpace(nouveauNom) == "" {
+		return fmt.Errorf("le nom ne peut pas être vide")
+	}
+	c.Nom = strings.TrimSpace(nouveauNom)
+	return nil
+}
+
+// Méthode pour mettre à jour l'email
+func (c *Contact) UpdateEmail(nouvelEmail string) error {
+	if strings.TrimSpace(nouvelEmail) == "" {
+		return fmt.Errorf("l'email ne peut pas être vide")
+	}
+	if !strings.Contains(nouvelEmail, "@") {
+		return fmt.Errorf("l'email doit contenir @")
+	}
+	c.Email = strings.TrimSpace(nouvelEmail)
+	return nil
+}
+
+// Map pour le stockage des contacts avec pointeurs
+var contacts = make(map[int]*Contact)
 var nextID = 1
 
 func main() {
@@ -77,14 +123,18 @@ func main() {
 func ajouterContact(reader *bufio.Reader) {
 	fmt.Print("Nom : ")
 	nom, _ := reader.ReadString('\n')
-	nom = strings.TrimSpace(nom)
 	fmt.Print("Email : ")
 	email, _ := reader.ReadString('\n')
-	email = strings.TrimSpace(email)
 
-	contact := Contact{ID: nextID, Nom: nom, Email: email}
+	contact, err := NewContact(nom, email)
+	if err != nil {
+		fmt.Printf("Erreur : %v\n", err)
+		return
+	}
+
+	contact.ID = nextID
 	contacts[nextID] = contact
-	fmt.Printf("Contact ajouté : %+v\n", contact)
+	fmt.Printf("Contact ajouté : %s\n", contact.String())
 	nextID++
 }
 
@@ -95,7 +145,7 @@ func listerContacts() {
 	}
 	fmt.Println("Liste des contacts :")
 	for _, c := range contacts {
-		fmt.Printf("ID: %d, Nom: %s, Email: %s\n", c.ID, c.Nom, c.Email)
+		fmt.Println(c.String())
 	}
 }
 
@@ -132,40 +182,47 @@ func mettreAJourContact(reader *bufio.Reader) {
 		return
 	}
 	
-	fmt.Printf("Contact actuel - ID: %d, Nom: %s, Email: %s\n", contact.ID, contact.Nom, contact.Email)
+	fmt.Printf("Contact actuel - %s\n", contact.String())
 	
-	fmt.Print("Nouveau nom (veuillez appuyer sur Entrée pour garder l'actuel) : ")
+	fmt.Print("Nouveau nom (appuyez sur Entrée pour garder l'actuel) : ")
 	nom, _ := reader.ReadString('\n')
 	nom = strings.TrimSpace(nom)
 	if nom != "" {
-		contact.Nom = nom
+		err := contact.UpdateNom(nom)
+		if err != nil {
+			fmt.Printf("Erreur nom : %v\n", err)
+			return
+		}
 	}
 	
 	fmt.Print("Nouvel email (veuillez appuyer sur Entrée pour garder l'actuel) : ")
 	email, _ := reader.ReadString('\n')
 	email = strings.TrimSpace(email)
 	if email != "" {
-		contact.Email = email
+		err := contact.UpdateEmail(email)
+		if err != nil {
+			fmt.Printf("Erreur email : %v\n", err)
+			return
+		}
 	}
 	
-	contacts[id] = contact
-	fmt.Printf("Contact mis à jour : %+v\n", contact)
+	fmt.Printf("Contact mis à jour : %s\n", contact.String())
 }
 
 func ajouterContactViaFlags(nom, email string) {
-	// Validation des paramètres
-	if nom == "" || email == "" {
-		fmt.Println("Erreur : --nom et --mail sont obligatoires")
+	contact, err := NewContact(nom, email)
+	if err != nil {
+		fmt.Printf("Erreur : %v\n", err)
 		fmt.Println("Exemple : go run main.go --ajouter --nom=Axelle --mail=axelle@lanca.fr")
 		return
 	}
 
-	// Création du contact
-	contact := Contact{ID: nextID, Nom: nom, Email: email}
+	// Attribution de l'ID et ajout à la map
+	contact.ID = nextID
 	contacts[nextID] = contact
 	
 	// Affichage du résultat
 	fmt.Printf("Contact ajouté parfaitement !\n")
-	fmt.Printf("ID: %d, Nom: %s, Email: %s\n", contact.ID, contact.Nom, contact.Email)
+	fmt.Printf("%s\n", contact.String())
 	nextID++
 }
