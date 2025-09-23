@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 )
@@ -103,59 +105,110 @@ func (m *MemoryStorer) GetAll() []NotificationRecord {
 }
 
 func main() {
-	fmt.Println("Système de Notifications")
+	fmt.Println("=== Système de Notifications et Logging ===")
 	
 	// Création du système d'archivage
 	storer := &MemoryStorer{}
+	reader := bufio.NewReader(os.Stdin)
 	
-	// Liste des notificateurs à tester
-	notifiers := []Notifier{
-		EmailNotifier{Address: "tibo@example.com"},
-		SMSNotifier{PhoneNumber: "0610203040"},     // Valide
-		SMSNotifier{PhoneNumber: "0612345678"},     // Valide
-		SMSNotifier{PhoneNumber: "0687654321"},     // Valide
-		SMSNotifier{PhoneNumber: "0712345678"},     // Invalide (ne commence pas par 06)
-		SMSNotifier{PhoneNumber: "0512345678"},     // Invalide (ne commence pas par 06)
-		PushNotifier{DeviceID: "device123"},
-		PushNotifier{DeviceID: "iphone456"},
-		PushNotifier{DeviceID: "android789"},
-		EmailNotifier{Address: "tibo@test.fr"},
-		EmailNotifier{Address: "admin@company.com"},
-		EmailNotifier{Address: "support@app.fr"},
-	}
-	
-	message := "Notification de test système"
-	
-	// Traitement de chaque notificateur
-	for _, notifier := range notifiers {
-		fmt.Printf("\n--- Test %s ---\n", notifier.GetType())
+	for {
+		fmt.Println("\nMenu :")
+		fmt.Println("1. Envoyer Email")
+		fmt.Println("2. Envoyer SMS") 
+		fmt.Println("3. Envoyer Push")
+		fmt.Println("4. Voir historique")
+		fmt.Println("5. Quitter")
+		fmt.Print("Votre choix : ")
 		
-		err := notifier.Send(message)
-		if err != nil {
-			// Affichage de l'erreur sans arrêter le programme
-			fmt.Printf("Erreur: %v\n", err)
-		} else {
-			// Enregistrement si succès
-			record := NotificationRecord{
-				Type:      notifier.GetType(),
-				Message:   message,
-				Timestamp: time.Now(),
-			}
-			storer.Store(record)
-			fmt.Printf("Notification enregistrée\n")
+		choix, _ := reader.ReadString('\n')
+		choix = strings.TrimSpace(choix)
+		
+		switch choix {
+		case "1":
+			envoyerEmail(reader, storer)
+		case "2":
+			envoyerSMS(reader, storer)
+		case "3":
+			envoyerPush(reader, storer)
+		case "4":
+			afficherHistorique(storer)
+		case "5":
+			fmt.Println("\nHistorique final des notifications :")
+			afficherHistorique(storer)
+			fmt.Println("Au revoir !")
+			return
+		default:
+			fmt.Println("Choix invalide")
 		}
 	}
+}
+
+func envoyerEmail(reader *bufio.Reader, storer *MemoryStorer) {
+	fmt.Print("Adresse email : ")
+	address, _ := reader.ReadString('\n')
+	address = strings.TrimSpace(address)
 	
-	// Affichage de l'historique
-	fmt.Println("\nHistorique des notifications :")
+	fmt.Print("Message : ")
+	message, _ := reader.ReadString('\n')
+	message = strings.TrimSpace(message)
+	
+	notifier := EmailNotifier{Address: address}
+	envoyerNotification(notifier, message, storer)
+}
+
+func envoyerSMS(reader *bufio.Reader, storer *MemoryStorer) {
+	fmt.Print("Numéro de téléphone : ")
+	phone, _ := reader.ReadString('\n')
+	phone = strings.TrimSpace(phone)
+	
+	fmt.Print("Message : ")
+	message, _ := reader.ReadString('\n')
+	message = strings.TrimSpace(message)
+	
+	notifier := SMSNotifier{PhoneNumber: phone}
+	envoyerNotification(notifier, message, storer)
+}
+
+func envoyerPush(reader *bufio.Reader, storer *MemoryStorer) {
+	fmt.Print("ID de l'appareil : ")
+	deviceID, _ := reader.ReadString('\n')
+	deviceID = strings.TrimSpace(deviceID)
+	
+	fmt.Print("Message : ")
+	message, _ := reader.ReadString('\n')
+	message = strings.TrimSpace(message)
+	
+	notifier := PushNotifier{DeviceID: deviceID}
+	envoyerNotification(notifier, message, storer)
+}
+
+func envoyerNotification(notifier Notifier, message string, storer *MemoryStorer) {
+	fmt.Printf("\n--- Envoi %s ---\n", notifier.GetType())
+	
+	err := notifier.Send(message)
+	if err != nil {
+		fmt.Printf("Erreur: %v\n", err)
+	} else {
+		// Enregistrement si succès
+		record := NotificationRecord{
+			Type:      notifier.GetType(),
+			Message:   message,
+			Timestamp: time.Now(),
+		}
+		storer.Store(record)
+		fmt.Printf("Notification envoyé et enregistrée\n")
+	}
+}
+
+func afficherHistorique(storer *MemoryStorer) {
 	records := storer.GetAll()
 	if len(records) == 0 {
 		fmt.Println("Aucune notification enregistrée")
-	} else {
-		for _, record := range records {
-			fmt.Println(record)
-		}
+		return
 	}
 	
-	fmt.Printf("\nTotal: %d notifications réussies\n", len(records))
+	fmt.Printf("\nHistorique (%d notifications) :\n", len(records))
+	for _, record := range records {
+		fmt.Println(record)
+	}
 }
