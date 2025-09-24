@@ -5,34 +5,34 @@ import (
 	"fmt"
 )
 
-// erreur lorsque le fichier journal ne peut pas être trouvé ou accessible
+// Erreur fichier pas trouvé
 type FileNotFoundError struct {
 	Path string
 	Err  error
 }
 
 func (e *FileNotFoundError) Error() string {
-	return fmt.Sprintf("file not found or inaccessible: %s", e.Path)
+	return fmt.Sprintf("fichier introuvable: %s", e.Path)
 }
 
 func (e *FileNotFoundError) Unwrap() error {
 	return e.Err
 }
 
-// erreur lors des opérations d'analyse
+// Erreur de parsing
 type ParseError struct {
 	Operation string
 	Err       error
 }
 
 func (e *ParseError) Error() string {
-	return fmt.Sprintf("parse error during %s: %v", e.Operation, e.Err)
+	return fmt.Sprintf("erreur parsing %s: %v", e.Operation, e.Err)
 }
 
 func (e *ParseError) Unwrap() error {
 	return e.Err
 }
-
+// Constructeurs
 func NewFileNotFoundError(path string, err error) *FileNotFoundError {
 	return &FileNotFoundError{
 		Path: path,
@@ -47,6 +47,7 @@ func NewParseError(operation string, err error) *ParseError {
 	}
 }
 
+// Helpers pour vérifier le type d'erreur
 func IsFileNotFound(err error) bool {
 	var fileNotFoundErr *FileNotFoundError
 	return errors.As(err, &fileNotFoundErr)

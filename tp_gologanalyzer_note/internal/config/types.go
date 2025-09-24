@@ -1,13 +1,13 @@
 package config
 
-// Configuration d'un fichier de log provenant de l'entrée JSON
+// Config d'un fichier de log depuis le JSON
 type LogConfig struct {
 	ID   string `json:"id"`
 	Path string `json:"path"`
 	Type string `json:"type"`
 }
 
-// Résultat d'analyse d'un fichier de log
+// Résultat après analyse d'un log
 type AnalysisResult struct {
 	LogID        string `json:"log_id"`
 	FilePath     string `json:"file_path"`
@@ -16,7 +16,7 @@ type AnalysisResult struct {
 	ErrorDetails string `json:"error_details"`
 }
 
-// Constantes des status pour les résultats d'analyse
+// Status possibles
 const (
 	StatusOK     = "OK"
 	StatusFailed = "FAILED"

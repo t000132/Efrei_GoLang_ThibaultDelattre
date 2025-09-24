@@ -7,9 +7,10 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "go_loganizer",
+	Use:   "loganalyzer",
 	Short: "Outil d'analyse de logs",
-	Long: `Go_loganizer est un outil pour analyser des fichiers de logs et en extraire des informations utiles.`,
+	Long: `loganalyzer est un outil CLI pour analyser des fichiers de logs de diverses sources (serveurs, applications).
+			Il analyse plusieurs logs en parallèle et extrait des infos utiles avec gestion d'erreurs robuste.`,
 }
 
 func Execute() {
@@ -20,7 +21,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Message de test pour toggle")
+	// Pas de flags glovbaux
 }
 
 
