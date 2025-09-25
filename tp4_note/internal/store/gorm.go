@@ -55,7 +55,7 @@ func (g *GORMStore) Create(contact *models.Contact) error {
 // GetAll récupère tous les contacts
 func (g *GORMStore) GetAll() ([]models.Contact, error) {
 	var contacts []models.Contact
-	
+
 	result := g.db.Find(&contacts)
 	if result.Error != nil {
 		return nil, fmt.Errorf("erreur récupération contacts: %v", result.Error)
@@ -67,7 +67,7 @@ func (g *GORMStore) GetAll() ([]models.Contact, error) {
 // GetByID récupère un contact par son ID
 func (g *GORMStore) GetByID(id uint) (*models.Contact, error) {
 	var contact models.Contact
-	
+
 	result := g.db.First(&contact, id)
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {

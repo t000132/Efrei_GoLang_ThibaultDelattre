@@ -34,7 +34,7 @@ func init() {
 
 	// Flag obligatoire
 	updateCmd.Flags().StringVarP(&updateID, "id", "i", "", "ID du contact à mettre à jour (obligatoire)")
-	
+
 	// Flags optionnels pour les champs à modifier
 	updateCmd.Flags().StringVarP(&updateName, "name", "n", "", "nouveau nom")
 	updateCmd.Flags().StringVarP(&updateEmail, "email", "e", "", "nouvel email")
@@ -61,27 +61,27 @@ func runUpdate(cmd *cobra.Command, args []string) error {
 
 	// Afficher le contact avant modification
 	fmt.Printf("Contact actuel:\n")
-	fmt.Printf("ID: %d | %s (%s) | %s | %s\n", 
+	fmt.Printf("ID: %d | %s (%s) | %s | %s\n",
 		contact.ID, contact.Name, contact.Email, contact.Phone, contact.Company)
 
 	// Mettre à jour seulement les champs spécifiés
 	modified := false
-	
+
 	if updateName != "" && updateName != contact.Name {
 		contact.Name = updateName
 		modified = true
 	}
-	
+
 	if updateEmail != "" && updateEmail != contact.Email {
 		contact.Email = updateEmail
 		modified = true
 	}
-	
+
 	if updatePhone != contact.Phone {
 		contact.Phone = updatePhone
 		modified = true
 	}
-	
+
 	if updateCompany != contact.Company {
 		contact.Company = updateCompany
 		modified = true
@@ -99,7 +99,7 @@ func runUpdate(cmd *cobra.Command, args []string) error {
 	}
 
 	fmt.Printf("\nContact mis à jour avec succès!\n")
-	fmt.Printf("ID: %d | %s (%s) | %s | %s\n", 
+	fmt.Printf("ID: %d | %s (%s) | %s | %s\n",
 		contact.ID, contact.Name, contact.Email, contact.Phone, contact.Company)
 
 	return nil

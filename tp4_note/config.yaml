@@ -5,10 +5,10 @@ storage:
 
 # Exemple pour stockage JSON:
 # storage:
-#   type: "json"
-#   path: "contacts.json"
+#   type: "gorm"
+#   path: "contacts.db"
 
 # Exemple pour stockage en mémoire (temporaire):
 # storage:
-#   type: "memory"
-#   path: ""
+#   type: "gorm"
+#   path: "contacts.db"

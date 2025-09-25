@@ -21,7 +21,7 @@ type Contact struct {
 
 // String retourne une représentation string du contact
 func (c Contact) String() string {
-	return fmt.Sprintf("ID: %d | %s (%s) | %s | %s", 
+	return fmt.Sprintf("ID: %d | %s (%s) | %s | %s",
 		c.ID, c.Name, c.Email, c.Phone, c.Company)
 }
 

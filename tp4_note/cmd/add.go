@@ -33,7 +33,7 @@ func init() {
 	// Flags obligatoires
 	addCmd.Flags().StringVarP(&addName, "name", "n", "", "nom du contact (à mettre)")
 	addCmd.Flags().StringVarP(&addEmail, "email", "e", "", "email du contact (à mettre)")
-	
+
 	// Flags pas obligatoires
 	addCmd.Flags().StringVarP(&addPhone, "phone", "p", "", "numéro de téléphone")
 	addCmd.Flags().StringVarP(&addCompany, "company", "c", "", "entreprise")
@@ -59,8 +59,8 @@ func runAdd(cmd *cobra.Command, args []string) error {
 	}
 
 	fmt.Printf("Contact ajouté !\n")
-	fmt.Printf("ID: %d | %s (%s) | %s | %s\n", 
+	fmt.Printf("ID: %d | %s (%s) | %s | %s\n",
 		contact.ID, contact.Name, contact.Email, contact.Phone, contact.Company)
-	
+
 	return nil
 }

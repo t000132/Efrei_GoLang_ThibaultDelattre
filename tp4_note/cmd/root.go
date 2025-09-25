@@ -12,8 +12,8 @@ import (
 
 var (
 	// Variables globales pour l'injection de dépendances
-	storer       store.Storer
-	cfgFile      string
+	storer  store.Storer
+	cfgFile string
 )
 
 // rootCmd représente la commande de base
@@ -35,9 +35,9 @@ func Execute() {
 func init() {
 	// Initialiser la configuration au démarrage
 	cobra.OnInitialize(initConfig)
-	
+
 	// Flag global pour le fichier de configuration
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "config.yaml", 
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "config.yaml",
 		"fichier de configuration (défaut: config.yaml)")
 }
 

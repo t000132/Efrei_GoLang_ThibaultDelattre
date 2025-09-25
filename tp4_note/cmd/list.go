@@ -82,9 +82,9 @@ func showAllContacts() error {
 	}
 
 	fmt.Printf("%d contact(s) trouvé(s):\n\n", len(contacts))
-	
+
 	for _, contact := range contacts {
-		fmt.Printf("ID: %d | %s (%s) | %s | %s\n", 
+		fmt.Printf("ID: %d | %s (%s) | %s | %s\n",
 			contact.ID, contact.Name, contact.Email, contact.Phone, contact.Company)
 	}
 

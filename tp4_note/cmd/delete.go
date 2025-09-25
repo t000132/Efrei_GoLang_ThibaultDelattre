@@ -56,7 +56,7 @@ func runDelete(cmd *cobra.Command, args []string) error {
 
 	// Affiche le contact qui va être supprimé
 	fmt.Printf("Contact à supprimer:\n")
-	fmt.Printf("ID: %d | %s (%s) | %s | %s\n", 
+	fmt.Printf("ID: %d | %s (%s) | %s | %s\n",
 		contact.ID, contact.Name, contact.Email, contact.Phone, contact.Company)
 
 	// Demander confirmation si --force n'est pas utilisé car la suppression est irréversible
@@ -79,7 +79,7 @@ func runDelete(cmd *cobra.Command, args []string) error {
 // confirmDelete demande confirmation à l'utilisateur
 func confirmDelete() bool {
 	fmt.Print("\n Êtes-vous sûr de vouloir supprimer ce contact ? (oui/non): ")
-	
+
 	reader := bufio.NewReader(os.Stdin)
 	response, err := reader.ReadString('\n')
 	if err != nil {
