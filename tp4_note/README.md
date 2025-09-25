@@ -1,7 +1,3 @@
-# Mini-CRM CLI
-
-Un gestionnaire de contacts simple et efficace en ligne de commande, écrit en Go.
-
 ## Fonctionnalités
 
 - **Gestion complète des contacts (CRUD)** : Ajouter, Lister, Mettre à jour et Supprimer
@@ -139,8 +135,6 @@ storage:
   type: "json"
   path: "mes-contacts.json"
 ```
-
-Aucune recompilation nécessaire !
 
 ## Tests
 
