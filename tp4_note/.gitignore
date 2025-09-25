@@ -1,0 +1,25 @@
+# Fichiers de build
+mini-crm
+mini-crm.exe
+*.exe
+
+# Fichiers de données générés
+*.db
+*.json
+contacts.*
+
+# Fichiers de configuration locaux
+config.local.yaml
+
+# Dossiers IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
