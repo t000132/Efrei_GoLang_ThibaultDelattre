@@ -7,14 +7,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// listCmd représente la commande list
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Lister les contacts",
 	Long: `Afficher la liste de tous les contacts ou un contact spécifique par ID.
 
-Exemples d'utilisation:
-  mini-crm list          # Lister tous les contacts
+		Exemples d'utilisation:
+  mini-crm list          # Va lister tous les contacts
   mini-crm list --id 5   # Afficher le contact avec l'ID 5
   mini-crm list -i 3     # Afficher le contact avec l'ID 3`,
 	RunE: runList,
@@ -57,7 +56,7 @@ func showContactByID() error {
 		return err
 	}
 
-	fmt.Printf("📋 Contact trouvé:\n")
+	fmt.Printf("Contact trouvé:\n")
 	fmt.Printf("ID: %d\n", contact.ID)
 	fmt.Printf("Nom: %s\n", contact.Name)
 	fmt.Printf("Email: %s\n", contact.Email)
@@ -78,11 +77,11 @@ func showAllContacts() error {
 	}
 
 	if len(contacts) == 0 {
-		fmt.Println("📭 Aucun contact trouvé.")
+		fmt.Println("Aucun contact trouvé.")
 		return nil
 	}
 
-	fmt.Printf("📋 %d contact(s) trouvé(s):\n\n", len(contacts))
+	fmt.Printf("%d contact(s) trouvé(s):\n\n", len(contacts))
 	
 	for _, contact := range contacts {
 		fmt.Printf("ID: %d | %s (%s) | %s | %s\n", 

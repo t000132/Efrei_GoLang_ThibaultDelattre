@@ -2,7 +2,7 @@
 
 Un gestionnaire de contacts simple et efficace en ligne de commande, écrit en Go.
 
-## 📋 Fonctionnalités
+## Fonctionnalités
 
 - **Gestion complète des contacts (CRUD)** : Ajouter, Lister, Mettre à jour et Supprimer
 - **Interface en ligne de commande** avec Cobra
@@ -12,7 +12,7 @@ Un gestionnaire de contacts simple et efficace en ligne de commande, écrit en G
   - **Fichier JSON** (simple et lisible)
   - **Stockage en mémoire** (temporaire pour tests)
 
-## 🏗️ Architecture
+## Architecture
 
 Le projet suit les bonnes pratiques Go avec :
 - **Architecture en packages découplés**
@@ -44,7 +44,7 @@ mini-crm/
 └── README.md              # Documentation
 ```
 
-## 🚀 Installation et Utilisation
+## Installation et Utilisation
 
 ### Prérequis
 - Go 1.21 ou supérieur
@@ -101,8 +101,8 @@ go build -o mini-crm main.go
 
 #### Mettre à jour un contact
 ```bash
-./mini-crm update --id 5 --name "Jean Dupont Jr"
-./mini-crm update -i 3 -e "nouveau@email.com" -p "0987654321"
+./mini-crm update --id 5 --name "Thibault Dt"
+./mini-crm update -i 3 -e "nouveau@email.com" -p "0933443344"
 ```
 
 #### Supprimer un contact
@@ -111,7 +111,7 @@ go build -o mini-crm main.go
 ./mini-crm delete -i 3 --force # Sans confirmation
 ```
 
-## 🗄️ Backends de Stockage
+## Backends de Stockage
 
 ### SQLite avec GORM (Recommandé)
 - Persistence robuste en base de données
@@ -129,7 +129,7 @@ go build -o mini-crm main.go
 - Très rapide
 - Idéal pour les tests et développement
 
-## 🔧 Basculer entre les Backends
+## Basculer entre les Backends
 
 Il suffit de modifier le fichier `config.yaml` et relancer l'application :
 
@@ -142,18 +142,18 @@ storage:
 
 Aucune recompilation nécessaire !
 
-## 🧪 Tests
+## Tests
 
 Le projet inclut une architecture testable avec injection de dépendances. Chaque backend implémente la même interface `Storer`.
 
-## 📦 Dépendances
+## Dépendances
 
 - `github.com/spf13/cobra` - CLI framework
 - `github.com/spf13/viper` - Configuration management
 - `gorm.io/gorm` - ORM pour Go
 - `gorm.io/driver/sqlite` - Driver SQLite pour GORM
 
-## 🎯 Concepts Go Illustrés
+## Concepts Go Illustrés
 
 - **Interfaces** pour l'abstraction et l'injection de dépendances
 - **Packages** pour l'organisation modulaire  
@@ -164,7 +164,7 @@ Le projet inclut une architecture testable avec injection de dépendances. Chaqu
 - **CLI development** avec Cobra
 - **Configuration management** avec Viper
 
-## 🔍 Exemple d'utilisation complète
+## Exemple d'utilisation complète
 
 ```bash
 # Configurer pour utiliser SQLite
@@ -186,7 +186,3 @@ Le projet inclut une architecture testable avec injection de dépendances. Chaqu
 # Lister à nouveau
 ./mini-crm list
 ```
-
-## 👨‍💻 Développement
-
-Ce projet a été développé dans le cadre du TP4 du cours de Go à l'EFREI, en s'inspirant des bonnes pratiques du TP2 (système de notifications avec interfaces et architecture modulaire).

@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Contact représente un contact dans notre CRM
+// Contact => un contact dans notre CRM
 type Contact struct {
 	ID        uint           `gorm:"primaryKey" json:"id"`
 	Name      string         `gorm:"not null" json:"name"`

@@ -21,15 +21,10 @@ var rootCmd = &cobra.Command{
 	Use:   "mini-crm",
 	Short: "Un gestionnaire de contacts simple et efficace",
 	Long: `Mini-CRM CLI est un gestionnaire de contacts en ligne de commande
-écrit en Go. Il supporte plusieurs backends de stockage :
-- SQLite avec GORM (recommandé)
-- Fichier JSON 
-- Stockage en mémoire (temporaire)
-
-Le type de stockage peut être configuré dans le fichier config.yaml.`,
+écrit en Go. Il supporte SQLite avec GORM (recommandé), Fichier JSON et Stockage en mémoire (temporaire)`,
 }
 
-// Execute lance l'application
+// Execute lance l'applciation
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
@@ -57,7 +52,7 @@ func initConfig() {
 		return
 	}
 
-	// Créer le storer basé sur la configuration
+	// Créeer le storer basé sur la configuration
 	storer, err = cfg.CreateStore()
 	if err != nil {
 		fmt.Printf("Erreur initialisation stockage: %v\n", err)

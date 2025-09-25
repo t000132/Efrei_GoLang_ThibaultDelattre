@@ -7,12 +7,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Config représente la configuration de l'application
 type Config struct {
 	Storage StorageConfig `mapstructure:"storage"`
 }
 
-// StorageConfig contient la configuration du stockage
 type StorageConfig struct {
 	Type string `mapstructure:"type"`
 	Path string `mapstructure:"path"`

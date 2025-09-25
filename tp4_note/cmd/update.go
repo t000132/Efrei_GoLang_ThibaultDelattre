@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// updateCmd représente la commande update
 var updateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "Mettre à jour un contact existant",
@@ -15,9 +14,9 @@ var updateCmd = &cobra.Command{
 L'ID est obligatoire, les autres champs sont optionnels.
 
 Exemples d'utilisation:
-  mini-crm update --id 5 --name "Jean Dupont Jr"
+  mini-crm update --id 5 --name "Thibault D"
   mini-crm update -i 3 -e "nouveau@email.com" -p "0987654321"
-  mini-crm update --id 1 --company "Nouvelle Entreprise"`,
+  mini-crm update --id 1 --company "Entreprise de fou"`,
 	RunE: runUpdate,
 }
 
@@ -61,7 +60,7 @@ func runUpdate(cmd *cobra.Command, args []string) error {
 	}
 
 	// Afficher le contact avant modification
-	fmt.Printf("📋 Contact actuel:\n")
+	fmt.Printf("Contact actuel:\n")
 	fmt.Printf("ID: %d | %s (%s) | %s | %s\n", 
 		contact.ID, contact.Name, contact.Email, contact.Phone, contact.Company)
 
@@ -90,7 +89,7 @@ func runUpdate(cmd *cobra.Command, args []string) error {
 
 	// Vérifier qu'au moins un champ a été modifié
 	if !modified {
-		fmt.Println("⚠️  Aucune modification détectée.")
+		fmt.Println("Aucune modification détectée.")
 		return nil
 	}
 
@@ -99,7 +98,7 @@ func runUpdate(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("erreur mise à jour contact: %v", err)
 	}
 
-	fmt.Printf("\n✅ Contact mis à jour avec succès!\n")
+	fmt.Printf("\nContact mis à jour avec succès!\n")
 	fmt.Printf("ID: %d | %s (%s) | %s | %s\n", 
 		contact.ID, contact.Name, contact.Email, contact.Phone, contact.Company)
 

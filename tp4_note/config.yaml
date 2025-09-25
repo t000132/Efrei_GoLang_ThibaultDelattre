@@ -1,8 +1,7 @@
-# Configuration du Mini-CRM CLI
 # Type de stockage: "memory", "json", ou "gorm"
 storage:
-  type: "gorm"         # Utiliser SQLite par défaut
-  path: "contacts.db"  # Fichier de base de données ou JSON
+  type: "gorm"
+  path: "contacts.db"
 
 # Exemple pour stockage JSON:
 # storage:
