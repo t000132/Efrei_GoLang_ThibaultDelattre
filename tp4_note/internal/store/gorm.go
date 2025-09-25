@@ -5,8 +5,9 @@ import (
 
 	"mini-crm/internal/models"
 
-	"gorm.io/driver/sqlite"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 // GORMStore implémente Storer avec GORM et SQLite
@@ -16,8 +17,10 @@ type GORMStore struct {
 
 // NewGORMStore crée une nouvelle instance de GORMStore
 func NewGORMStore(dbPath string) (*GORMStore, error) {
-	// Ouvrir la connexion SQLite
-	db, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
+	// Ouvrir la connexion SQLite avec le driver pur Go
+	db, err := gorm.Open(sqlite.Open(dbPath+"?_pragma=foreign_keys(1)"), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent), // Supprime les logs SQL verbeux
+	})
 	if err != nil {
 		return nil, fmt.Errorf("erreur connexion base de données: %v", err)
 	}
